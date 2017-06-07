@@ -13,7 +13,8 @@
         "application/x-www-form-urlencoded;charset=utf-8",
         "application/json;charset=utf-8",
         "multipart/form-data;charset=utf-8",
-        "text/xml;charset=utf-8"
+        "text/xml;charset=utf-8",
+        "ArrayBuffer"
     ];
     var W = window.innerWidth;
     var H = window.innerHeight;
@@ -881,6 +882,10 @@
             else if(type(obj.data)==="Object"){
                 xhr.setRequestHeader("Content-Type", contentTypes[1]);
                 xhr.send(window[symbol].queryString.stringify(obj.data));
+            }
+            else if(type(obj.data)==="ArrayBuffer"){
+                xhr.setRequestHeader("Content-Type", contentTypes[5]);
+                xhr.send(obj.data);
             }
             else{
                 if(obj.data.isJSON()){
