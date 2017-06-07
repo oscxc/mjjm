@@ -771,7 +771,7 @@
                     }
                     delete this;
                 };
-                reader.readAsText(fs[i]);
+                reader.readAsArrayBuffer(fs[i]);
             }
         }
         each(this.els,function (k,el) {
