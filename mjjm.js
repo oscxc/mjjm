@@ -14,7 +14,8 @@
         "application/json;charset=utf-8",
         "multipart/form-data;charset=utf-8",
         "text/xml;charset=utf-8",
-        "ArrayBuffer"
+        "ArrayBuffer",
+        "Blob"
     ];
     var W = window.innerWidth;
     var H = window.innerHeight;
@@ -892,7 +893,7 @@
                     xhr.send(obj.data);
                     break;
                 case "Blob":
-                    xhr.setRequestHeader("Content-Type", contentTypes[5]);
+                    xhr.setRequestHeader("Content-Type", contentTypes[6]);
                     xhr.send(obj.data);
                     break;
                 default:
@@ -1090,7 +1091,7 @@
         //each遍历数组或对象执行方法-------$.each(v,f)-----------------意义是抽象for循环，减少代码量，函数式编程的优点
         each: each,
         //返回变量类型--------------------$.type(a)-------------------返回值(字符串)
-        // Undefined|Null|Boolean|Number|String|Function|Array|NodeList|Object|RegExp|Date|Error|Symbol|FormData|HTMLImageElement|ArrayBuffer|
+        // Undefined|Null|Boolean|Number|String|Function|Array|NodeList|Object|RegExp|Date|Error|Symbol|FormData|HTMLImageElement|ArrayBuffer|Blob|
         type:type,
         //返回指定路径文件的扩展名---------$.extension(path)-----------返回值(字符串)
         extension:extension,
