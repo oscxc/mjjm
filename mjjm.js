@@ -877,31 +877,37 @@
         }
         else if(obj.method==="post"){
             xhr.open("post", obj.url, true);
-            if(type(obj.data)==="FormData"){
-                xhr.setRequestHeader("Content-Type", contentTypes[3]);
-                xhr.send(obj.data);
-            }
-            else if(type(obj.data)==="Object"){
-                xhr.setRequestHeader("Content-Type", contentTypes[1]);
-                xhr.send(window[symbol].queryString.stringify(obj.data));
-            }
-            else if(type(obj.data)==="ArrayBuffer"){
-                xhr.setRequestHeader("Content-Type", contentTypes[5]);
-                xhr.send(obj.data);
-            }
-            else{
-                if(obj.data.isJSON()){
-                    xhr.setRequestHeader("Content-Type", contentTypes[2]);
-                }
-                else{
-                    if(obj.reqType){//如果是xml或者formdata 需要自己设置类型，否则当做text处理
-                        xhr.setRequestHeader("Content-Type", obj.reqType);
+            var dataType = type(obj.data);
+            switch (dataType){
+                case "FormData":
+                    xhr.setRequestHeader("Content-Type", contentTypes[3]);
+                    xhr.send(obj.data);
+                    break;
+                case "Object":
+                    xhr.setRequestHeader("Content-Type", contentTypes[1]);
+                    xhr.send(window[symbol].queryString.stringify(obj.data));
+                    break;
+                case "ArrayBuffer":
+                    xhr.setRequestHeader("Content-Type", contentTypes[5]);
+                    xhr.send(obj.data);
+                    break;
+                case "Blob":
+                    xhr.setRequestHeader("Content-Type", contentTypes[5]);
+                    xhr.send(obj.data);
+                    break;
+                default:
+                    if(obj.data.isJSON()){
+                        xhr.setRequestHeader("Content-Type", contentTypes[2]);
                     }
                     else{
-                        xhr.setRequestHeader("Content-Type", contentTypes[0]);
+                        if(obj.reqType){//如果是xml或者formdata 需要自己设置类型，否则当做text处理
+                            xhr.setRequestHeader("Content-Type", obj.reqType);
+                        }
+                        else{
+                            xhr.setRequestHeader("Content-Type", contentTypes[0]);
+                        }
                     }
-                }
-                xhr.send(obj.data);
+                    xhr.send(obj.data);
             }
         }
     };
@@ -1084,7 +1090,7 @@
         //each遍历数组或对象执行方法-------$.each(v,f)-----------------意义是抽象for循环，减少代码量，函数式编程的优点
         each: each,
         //返回变量类型--------------------$.type(a)-------------------返回值(字符串)
-        // Undefined|Null|Boolean|Number|String|Function|Array|NodeList|Object|RegExp|Date|Error|Symbol|FormData|HTMLImageElement|
+        // Undefined|Null|Boolean|Number|String|Function|Array|NodeList|Object|RegExp|Date|Error|Symbol|FormData|HTMLImageElement|ArrayBuffer|
         type:type,
         //返回指定路径文件的扩展名---------$.extension(path)-----------返回值(字符串)
         extension:extension,
