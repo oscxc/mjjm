@@ -80,9 +80,11 @@
                 break;
             default:
                 el = document.createElement(tagName);
-                each(attrs,function (k,v) {
-                    el.setAttribute(k,v);
-                });
+                if(attrs){
+                    each(attrs,function (k,v) {
+                        el.setAttribute(k,v);
+                    });
+                }
                 break;
         }
         return el;
