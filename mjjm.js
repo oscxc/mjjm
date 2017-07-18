@@ -757,7 +757,6 @@
             return insert(this,data,m);
         }
     });
-
     // --------------------------文件上传
     mjjm.prototype.UFile = function(callback){
         function getFile() {
