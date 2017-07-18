@@ -5,7 +5,7 @@
 
 // region[代码]
 "use strict";
-(function (symbol) {
+(function () {
     // region[本库依赖变量]
     var version = "1.0.0";
     var contentTypes = [
@@ -797,7 +797,7 @@
     // endregion
 
     // region[入口]
-    window[symbol] = function (selector) {
+    mjjm = function (selector) {
         if(type(selector)==="Function"){
             domLoad(selector);
         }
@@ -808,9 +808,9 @@
 
     // endregion
 
-    // region[扩展 window[symbol]]
+    // region[扩展 mjjm]
     // --------------------------常用变量扩展
-    extend(window[symbol],{
+    extend(mjjm,{
         //版本号
         version:version,
         //post提交的数据格式类型
@@ -821,8 +821,8 @@
         H:H
     });
     // --------------------------queryString
-    window[symbol]["queryString"] = {};
-    extend(window[symbol]["queryString"],{
+    mjjm["queryString"] = {};
+    extend(mjjm["queryString"],{
         //  a=1&b=c    =>    {a:1,b:"c"}
         parse: function(s){
             var o = {};
@@ -842,7 +842,7 @@
         }
     });
     // --------------------------ajax
-    window[symbol].ajax = function (_obj) {
+    mjjm.ajax = function (_obj) {
         var obj = {
             url:null,//这个不解释
             method:null,//get|post
@@ -870,7 +870,7 @@
         };
         if(obj.method==="get"){
             if(!isEmptyObject(obj.data)){
-                obj.url+="?"+window[symbol].queryString.stringify(obj.data);
+                obj.url+="?"+mjjm.queryString.stringify(obj.data);
             }
             xhr.open("get", obj.url, true);
             xhr.send();
@@ -885,7 +885,7 @@
                     break;
                 case "Object":
                     xhr.setRequestHeader("Content-Type", contentTypes[1]);
-                    xhr.send(window[symbol].queryString.stringify(obj.data));
+                    xhr.send(mjjm.queryString.stringify(obj.data));
                     break;
                 case "ArrayBuffer":
                     xhr.setRequestHeader("Content-Type", contentTypes[5]);
@@ -925,7 +925,7 @@
         else {
             throw new Error("参数错误！");
         }
-        window[symbol].ajax({
+        mjjm.ajax({
             url:arg[0],
             method:"get",
             callback:callback,
@@ -933,7 +933,7 @@
             data:data
         });
     }
-    extend(window[symbol],{
+    extend(mjjm,{
         get:function () {
             _get(arguments,false);
         },
@@ -941,7 +941,7 @@
             _get(arguments,true);
         },
         post:function (url,data,callback,reqType) {
-            window[symbol].ajax({
+            mjjm.ajax({
                 url:url,
                 method:"post",
                 callback:callback,
@@ -951,7 +951,7 @@
             });
         },
         postJSON:function (url,data,callback,reqType) {
-            window[symbol].ajax({
+            mjjm.ajax({
                 url:url,
                 method:"post",
                 callback:callback,
@@ -962,7 +962,7 @@
         }
     });
     // --------------------------document和dom事件
-    extend(window[symbol],{
+    extend(mjjm,{
         //该方法内的方法在dom树加载完成后执行------------------------$.domLoad(f)-----------------参数1：一个方法
         domLoad:domLoad,
         //该方法内的方法在页面所有内容加载完成后执行------------------$.allLoad(f)-----------------参数1：一个方法
@@ -1003,32 +1003,16 @@
                 a = function () {f();}
             }
             document.addEventListener("DOMAttrModified", a);
-        },
-        //增加一个全屏白色div用于加载
-        addMask:function () {
-            var div = document.createElement("div");
-            div.id = "DIVMask";
-            div.style.position = "fixed";
-            div.style.top = div.style.left = div.style.margin = div.style.padding = "0px";
-            div.style.width = window.innerWidth+"px";
-            div.style.height = window.innerHeight+"px";
-            div.style.backgroundColor = "white";
-            div.style.zIndex = 10000;
-            document.body.appendChild(div);
-        },
-        removeMask:function () {
-            var div = document.getElementById("DIVMask");
-            document.body.removeChild(div);
         }
     });
     //节点创建与节点树构造
-    extend(window[symbol],{
+    extend(mjjm,{
         create:create,
         createTree:createTree
     });
     // --------------------------using
     // using方法用于引入模块（css或js文件）   如果指定入口 用data-main属性 与 requireJS 相同
-    window[symbol].using = function(url,callback,t) {
+    mjjm.using = function(url,callback,t) {
         var head = document.getElementsByTagName('head')[0];
         if(t==="css"||$.extension(url)==="css"){
             var link = document.createElement("link");
@@ -1052,7 +1036,7 @@
             head.appendChild(script);
         }
         else {
-            window[symbol].get(url,function (text) {
+            mjjm.get(url,function (text) {
                 if(type(callback)==="Function"){
                     callback(text);
                 }
@@ -1060,27 +1044,23 @@
         }
     };
     // --------------------------全屏遮罩
-    extend(window[symbol],{
+    extend(mjjm,{
         //增加一个全屏白色div遮罩用于加载
         addMask:function () {
-            var div = document.createElement("div");
-            div.id = "DIVMask";
-            div.style.position = "fixed";
-            div.style.top = div.style.left = div.style.margin = div.style.padding = "0px";
-            div.style.width = window.innerWidth+"px";
-            div.style.height = window.innerHeight+"px";
-            div.style.backgroundColor = "white";
-            div.style.zIndex = 10000;
+            var div = create("div",{
+                id:"DIVMask",
+                style:"position:fixed;top:0;left:0;margin:0;padding:0;z-index:1008601;opacity:0;backgroundColor:white;"
+            });
+            mjjm(div).W(W).H(H);
             document.body.appendChild(div);
         },
         //删除已经创建的遮罩
         removeMask:function () {
-            var div = document.getElementById("DIVMask");
-            document.body.removeChild(div);
+            document.body.removeChild(document.getElementById("DIVMask"));
         }
     });
     // --------------------------工具方法
-    extend(window[symbol],{
+    extend(mjjm,{
         //对象扩展------------------------$.extend(t,o)----------------参数1：被扩展对象   参数2：一个对象
         extend:extend,
         //返回[a,b]随机数-----------------$.rand(a,b)
@@ -1142,23 +1122,23 @@
         var script = scriptList[scriptList.length - 1];
         var val = script.getAttribute("data-main");
         if(val){
-            window[symbol].using(val,"js");
+            mjjm.using(val,"js");
         }
     }());
 
     // endregion
 
-    // region[附加 $ 符号指向 window[symbol]]
-    window.$ = window[symbol];
-    window[symbol].addSymbol = function (sym) {
-        window[sym] = window[symbol];
+    // region[附加 $ 符号指向 mjjm]
+    window.$ = mjjm;
+    mjjm.addSymbol = function (sym) {
+        window[sym] = mjjm;
     };
-    window[symbol].delSymbol = function (sym) {
+    mjjm.delSymbol = function (sym) {
         delete window[sym];
     };
 
     // endregion
-}("mjjm"));
+}());
 // endregion
 
 // region[常用函数]
