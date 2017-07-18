@@ -1110,6 +1110,27 @@
         //简写console.log 为 $.log
         log:function (text) {
             console.log(text);
+        },
+        //函数节流和去抖
+        Throttle:function(interval,callback) {
+            var time;
+            this.filter = function (args) {
+                if(time&&new Date()-time<interval)
+                    return;
+                time = new Date();
+                args?callback(args):callback();
+            };
+        },
+        Debounce:function (interval,callback) {
+            var time;
+            this.filter = function (args) {
+                if(time && new Date() - time<interval){
+                    time = new Date();
+                    return;
+                }
+                time = new Date();
+                args?callback(args):callback();
+            };
         }
     });
 
@@ -1152,8 +1173,8 @@
 // region[还需添加的功能]
 // 1、可添加另外的魔性符号 指向当前的符号
 // 2、常用正则整理
-// 3、添加数据双向绑定
-// 4、img对象类型
+// 3、
+// 4、
 //
 //
 // endregion
