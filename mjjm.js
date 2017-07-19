@@ -321,8 +321,8 @@
     }
     // endregion
 
-    // region[mjjm 函数开始]
-    function mjjm(selector) {
+    // region[_mjjm 函数开始]
+    function _mjjm(selector) {
         if(type(selector)==="String"){
             this.els = document.querySelectorAll(selector);
             if(this.els.length===0){
@@ -340,9 +340,9 @@
     }
     // endregion
 
-    // region[扩展 mjjm.prototype]
+    // region[扩展 _mjjm.prototype]
     // --------------------------事件
-    extend(mjjm.prototype,{
+    extend(_mjjm.prototype,{
         addEvent:function (name,handle,b) {
             each(this.els,function (k,v) {
                 v.addEventListener(name,handle,b?b:false);
@@ -383,7 +383,7 @@
             }
         }
     }
-    extend(mjjm.prototype,{
+    extend(_mjjm.prototype,{
         val:function(v){
             return vth(this,"value",v);
         },
@@ -395,7 +395,7 @@
         }
     });
     // --------------------------设置和获取属性
-    mjjm.prototype.attr = function () {
+    _mjjm.prototype.attr = function () {
         var arg = arguments;
         if(arg.length===1){
             if(type(arg[0])==="String"){
@@ -433,7 +433,7 @@
         }
     };
     // --------------------------设置和获取css
-    mjjm.prototype.css = function () {
+    _mjjm.prototype.css = function () {
         var arg = arguments;
         if(arg.length===1){
             if(type(arg[0])==="String"){
@@ -481,7 +481,7 @@
         }
     }
     // W、H、L、T、R、B、fontSize
-    extend(mjjm.prototype,{
+    extend(_mjjm.prototype,{
         W:function (v) {
             return css2int(this,"width",v);
         },
@@ -583,7 +583,7 @@
         }
         return self;
     }
-    extend(mjjm.prototype,{
+    extend(_mjjm.prototype,{
         W:function (x,y,time,callback) {
             return animate({width:x},{width:y},time,callback,this);
         },
@@ -749,7 +749,7 @@
         });
         return self;
     }
-    extend(mjjm.prototype,{
+    extend(_mjjm.prototype,{
         append:function (data) {
             return insert(this,data);
         },
@@ -758,7 +758,7 @@
         }
     });
     // --------------------------文件上传
-    mjjm.prototype.UFile = function(callback){
+    _mjjm.prototype.UFile = function(callback){
         function getFile() {
             var self = this;
             var fs = this.files;
@@ -797,12 +797,12 @@
     // endregion
 
     // region[入口]
-    mjjm = function (selector) {
+    window.mjjm = function (selector) {
         if(type(selector)==="Function"){
             domLoad(selector);
         }
         else{
-            return new mjjm(selector);
+            return new _mjjm(selector);
         }
     };
 
@@ -870,7 +870,7 @@
         };
         if(obj.method==="get"){
             if(!isEmptyObject(obj.data)){
-                obj.url+="?"+mjjm.queryString.stringify(obj.data);
+                obj.url+="?"+_mjjm.queryString.stringify(obj.data);
             }
             xhr.open("get", obj.url, true);
             xhr.send();
@@ -1036,7 +1036,7 @@
             head.appendChild(script);
         }
         else {
-            mjjm.get(url,function (text) {
+            _mjjm.get(url,function (text) {
                 if(type(callback)==="Function"){
                     callback(text);
                 }
