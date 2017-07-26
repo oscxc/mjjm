@@ -135,6 +135,16 @@
             });
         }
     }//创建节点树
+    function compareObject(p,b) {
+        return function (m,n) {
+            return b||typeof b==="undefined"?m[p]<n[p]?-1:m[p]>n[p]?1:0:m[p]<n[p]?1:m[p]>n[p]?-1:0;
+        };
+    }
+    function compareNumber(b) {
+        return function (m,n) {
+            return b||typeof b==="undefined"?m<n?-1:m>n?1:0:m<n?1:m>n?-1:0;
+        };
+    }
     // endregion
 
     // region[内置方法原型扩展]
@@ -1110,7 +1120,11 @@
                 time = new Date();
                 args?callback(args):callback();
             };
-        }
+        },
+        //对象数组对象按属性排序，该函数作为sort()的参数
+        compareObject:compareObject,
+        //数字数组按数字大小排序，该函数作为sort()的参数
+        compareNumber:compareNumber
     });
 
     // endregion
