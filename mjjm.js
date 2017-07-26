@@ -135,16 +135,16 @@
             });
         }
     }//创建节点树
-    function compareObject(p,b) {
-        return function (m,n) {
-            return b||typeof b==="undefined"?m[p]<n[p]?-1:m[p]>n[p]?1:0:m[p]<n[p]?1:m[p]>n[p]?-1:0;
-        };
+    function compare(p) {
+        function cmp(x,y) {
+            var tx = type(x), ty = type(y);
+            return tx==="String"?ty==="String"?x.localeCompare(y):1:ty==="String"?-1:x<y?-1:x>y?1:0;
+        }
+        return p?function (m,n) {
+            return cmp(m[p],n[p]);
+        }:cmp;
     }
-    function compareNumber(b) {
-        return function (m,n) {
-            return b||typeof b==="undefined"?m<n?-1:m>n?1:0:m<n?1:m>n?-1:0;
-        };
-    }
+
     // endregion
 
     // region[内置方法原型扩展]
@@ -1121,10 +1121,8 @@
                 args?callback(args):callback();
             };
         },
-        //对象数组对象按属性排序，该函数作为sort()的参数
-        compareObject:compareObject,
-        //数字数组按数字大小排序，该函数作为sort()的参数
-        compareNumber:compareNumber
+        //sort()的比较函数，比较对象时（需要传入一个对象的属性）
+        compare:compare
     });
 
     // endregion
