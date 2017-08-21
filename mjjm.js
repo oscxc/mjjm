@@ -144,7 +144,16 @@
             return cmp(m[p],n[p]);
         }:cmp;
     }
-
+    function download(src,name) {
+        var a = create('a',{
+            href:src,
+            download:name?name:"defaultName"
+        });
+        var body = document.body;
+        body.appendChild(a);
+        a.click();
+        body.removeChild(a);
+    }
     // endregion
 
     // region[内置方法原型扩展]
@@ -1122,7 +1131,9 @@
             };
         },
         //sort()的比较函数，比较对象时（需要传入一个对象的属性）
-        compare:compare
+        compare:compare,
+        //download(src,name)下载文件，需要指定路径、名称（可选）。
+        download:download
     });
 
     // endregion
