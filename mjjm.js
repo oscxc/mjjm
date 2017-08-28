@@ -603,23 +603,26 @@
         return self;
     }
     extend(_mjjm.prototype,{
-        W:function (x,y,time,callback) {
+        width:function (x,y,time,callback) {
             return animate({width:x},{width:y},time,callback,this);
         },
-        H:function (x,y,time,callback) {
+        height:function (x,y,time,callback) {
             return animate({height:x},{height:y},time,callback,this);
         },
-        L:function (x,y,time,callback) {
+        left:function (x,y,time,callback) {
             return animate({left:x},{left:y},time,callback,this);
         },
-        T:function (x,y,time,callback) {
+        top:function (x,y,time,callback) {
             return animate({top:x},{top:y},time,callback,this);
         },
-        R:function (x,y,time,callback) {
+        right:function (x,y,time,callback) {
             return animate({right:x},{right:y},time,callback,this);
         },
-        B:function (x,y,time,callback) {
+        bottom:function (x,y,time,callback) {
             return animate({bottom:x},{bottom:y},time,callback,this);
+        },
+        font:function (x,y,time,callback) {
+            return animate({fontSize:x},{fontSize:y},time,callback,this);
         },
         marginTop:function (x,y,time,callback) {
             return animate({marginTop:x},{marginTop:y},time,callback,this);
@@ -670,9 +673,6 @@
                 paddingBottom:p2[2],
                 paddingLeft:p2[3]
             },time,callback,this);
-        },
-        fontSize:function (x,y,time,callback) {
-            return animate({fontSize:x},{fontSize:y},time,callback,this);
         },
         opacity:function (x,y,time,callback) {
             return animate({opacity:x},{opacity:y},time,callback,this);
