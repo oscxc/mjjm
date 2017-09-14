@@ -889,7 +889,7 @@
         };
         if(obj.method==="get"){
             if(!isEmptyObject(obj.data)){
-                obj.url+="?"+_mjjm.queryString.stringify(obj.data);
+                obj.url+="?"+mjjm.queryString.stringify(obj.data);
             }
             xhr.open("get", obj.url, true);
             xhr.send();
