@@ -28,7 +28,7 @@
         }
     }
     function type(v) {
-        return Object.prototype.toString.apply(v).replace("[object ","").replace("]","");
+        return Object.prototype.toString.apply(v).slice(8,-1);
     }
     function extension(path) {
         var temp= path.split(".");
