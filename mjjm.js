@@ -36,7 +36,7 @@
     }
     function each(v,f) {
         var t = type(v);
-        if (t==="Array"||t==="NodeList") {
+        if (t==="Array"||t==="NodeList"||t==='Arguments') {
             for (var i=0;i<v.length;i++) {
                 f(i,v[i]);
             }
@@ -1089,7 +1089,7 @@
         //each遍历数组或对象执行方法-------$.each(v,f)-----------------意义是抽象for循环，减少代码量，函数式编程的优点
         each: each,
         //返回变量类型--------------------$.type(a)-------------------返回值(字符串)
-        // Undefined|Null|Boolean|Number|String|Function|Array|NodeList|Object|RegExp|Date|Error|Symbol|FormData|HTMLImageElement|ArrayBuffer|Blob|
+        // Undefined|Null|Boolean|Number|String|Function|Array|NodeList|Object|RegExp|Date|Error|Symbol|FormData|HTMLImageElement|ArrayBuffer|Blob|Arguments
         type:type,
         //返回指定路径文件的扩展名---------$.extension(path)-----------返回值(字符串)
         extension:extension,
