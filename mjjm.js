@@ -42,8 +42,8 @@
             }
         }
         else if(t==="Object"){
-            for (var key in v) {
-                f(key,v[key]);
+            for (var k in v) {
+                f(k,v[k]);
             }
         }
         else if(t==="Number"){
@@ -1096,14 +1096,35 @@
         //判断一个对象是否为空对象（没有任何属性）
         isEmptyObject:isEmptyObject,
         //设置一段文本到剪贴板
-        copy:function(value,callback) {
-            var el = document.createElement("input");
-            el.value = value;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand("Copy");
-            document.body.removeChild(el);
-            callback&&callback(value);
+        copy:function (text,cb) {
+            var textArea, copy;
+            function createTextArea(text) {
+                textArea = document.createElement('textArea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+            }
+            function selectText() {
+                var range, selection;
+                if (navigator.userAgent.match(/ipad|iphone/i)) {
+                    range = document.createRange();
+                    range.selectNodeContents(textArea);
+                    selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    textArea.setSelectionRange(0, 999999);
+                }
+                else {
+                    textArea.select();
+                }
+            }
+            function copyToClipboard() {
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+            createTextArea(text);
+            selectText();
+            copyToClipboard();
+            cb&&cb(value);
         },
         //简写console.log 为 $.log
         log:function (text) {
